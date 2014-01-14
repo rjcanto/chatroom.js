@@ -3,9 +3,9 @@
   <head>
     <title>CORS Chat Example</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://c9.io/lbras/nodejslab/workspace/chatRoom/public/stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="https://c9.io/lbras/nodejslab/workspace/chatRoom/public/stylesheets/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="https://c9.io/lbras/nodejslab/workspace/chatRoom/public/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <style>
       body {
         padding-top: 60px;
@@ -27,7 +27,7 @@
       <div class="row fullHeight">
         <textarea readonly="true" spellcheck="false"></textarea>
         <div class="row controls">
-          <form id="msgForm" action="https://nodejslab-c9-lbras.c9.io/messages">
+          <form id="msgForm" action="/messages">
             <div class="span3"><input name="username" type="text" class="input-block-level" placeholder="Your Name"></div>
             <div class="input-append span9">
               <input name="message" type="text" class="span7" placeholder="Message">
@@ -38,8 +38,8 @@
       </div>
     </div>
     
-    <script src="https://c9.io/lbras/nodejslab/workspace/chatRoom/public/javascripts/jquery.min.js"></script>
-    <script src="https://c9.io/lbras/nodejslab/workspace/chatRoom/public/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
     <script>
     
       // Ajax form submission
@@ -58,7 +58,7 @@
       
       // Message polling (1 seconds)
       setInterval(function() {
-        $.getJSON("https://nodejslab-c9-lbras.c9.io/messages", {"lastMsgId": lastMsgId}, function (data) {
+        $.getJSON("/messages", {"lastMsgId": lastMsgId}, function (data) {
           
           if (!data) return;
           
