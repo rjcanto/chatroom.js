@@ -42,7 +42,7 @@ exports.create = function(req, res) {
   res.header('Access-Control-Allow-Methods', 'PUSH');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
   
-  var origin = req.header('origin');
+  var origin = req.header('origin') || "";
       
   var username = req.body.username;
   var message = req.body.message;
@@ -54,7 +54,7 @@ exports.create = function(req, res) {
       "id": idGenerator++,
       "username": username,
       "message": message,
-      "origin": origin || ""
+      "origin": origin.indexOf(req.header("host")) != -1 ? origin : ""
   });
   
   // All messages but the last one stay in memory for 60 seconds
