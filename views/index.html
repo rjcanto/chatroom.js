@@ -3,7 +3,7 @@
   <head>
     <title>CORS Chat Example</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
@@ -67,7 +67,13 @@
           // Format new messages
           var newMessages = "";
           for (var i = 0; i < data.length; ++i) {
-            newMessages += data[i].username + ": " + data[i].message + "\n";
+            
+            var origin = "";
+            if (data[i].origin != "") {
+              origin = " (" + data[i].origin + ")";
+            }
+            
+            newMessages += data[i].username + origin + ": " + data[i].message + "\n";
             lastMsgId = data[i].id;
           }
           

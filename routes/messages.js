@@ -4,7 +4,8 @@ var idGenerator = 0;
 var messages = messages || [{
   "id": idGenerator++,
   "username": "",
-  "message": ""
+  "message": "",
+  "origin": ""
 }];
 
 /*
@@ -35,6 +36,13 @@ exports.list = function(req, res) {
 };
 
 exports.create = function(req, res) {
+
+  // CORS
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'PUSH');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  
+  var origin = req.get('origin');
       
   var username = req.body.username;
   var message = req.body.message;
@@ -45,7 +53,8 @@ exports.create = function(req, res) {
   messages.push({
       "id": idGenerator++,
       "username": username,
-      "message": message
+      "message": message,
+      "origin": origin || ""
   });
   
   // All messages but the last one stay in memory for 60 seconds
