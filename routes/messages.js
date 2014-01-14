@@ -42,7 +42,7 @@ exports.create = function(req, res) {
   res.header('Access-Control-Allow-Methods', 'PUSH');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
   
-  var origin = req.get('origin');
+  var origin = req.header('origin');
       
   var username = req.body.username;
   var message = req.body.message;
