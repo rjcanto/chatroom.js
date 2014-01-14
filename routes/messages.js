@@ -54,7 +54,7 @@ exports.create = function(req, res) {
       "id": idGenerator++,
       "username": username,
       "message": message,
-      "origin": origin.indexOf(req.header("host")) != -1 ? origin : ""
+      "origin": origin.indexOf(req.header("host")) != -1 ? "" : origin
   });
   
   // All messages but the last one stay in memory for 60 seconds
