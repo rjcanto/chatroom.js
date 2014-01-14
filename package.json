@@ -1,9 +1,28 @@
 {
-    "name": "application-name"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.5.8"
-    , "jade": ">= 0.0.1"
+  "name": "CORS-Chat-Example",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "express": "~2.5.8",
+    "jade": "~1.1.4"
+  },
+  "description": "ERROR: No README data found!",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rjcanto/chatroom.js.git"
+  },
+  "keywords": [
+    "cors",
+    "chat"
+  ],
+  "author": "Ricardo Canto, Luis Bras",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/rjcanto/chatroom.js/issues"
   }
 }
