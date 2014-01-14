@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://c9.io/lbras/nodejslab/workspace/chatRoom/public/stylesheets/bootstrap.min.css">
     <link rel="stylesheet" href="https://c9.io/lbras/nodejslab/workspace/chatRoom/public/stylesheets/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="https://c9.io/lbras/nodejslab/workspace/chatRoom/public/stylesheets/style.css">
     <style>
       body {
         padding-top: 60px;
@@ -12,7 +13,7 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container fullHeight">
       <div class="navbar navbar-fixed-top navbar-inverse">
         <div class="navbar-inner">
           <div class="pull-right">
@@ -23,27 +24,16 @@
       <div class="page-header">
         <h1>CORS Chat Example</h1>
       </div>
-      <div class="row">
-        <div>
-          <table id="messageTable" class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th class="span3">Name</th>
-                <th class="span9">Text</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-          <div class="row controls">
-            <form id="msgForm" action="https://nodejslab-c9-lbras.c9.io/messages">
-              <div class="span3"><input name="username" type="text" class="input-block-level" placeholder="Your Name"></div>
-              <div class="input-append span9">
-                <input name="message" type="text" class="span7" placeholder="Message">
-                <input type="submit" class="span2 btn btn-primary" value="Send">
-              </div>
-            </form>
-          </div>
+      <div class="row fullHeight">
+        <textarea readonly="true" spellcheck="false"></textarea>
+        <div class="row controls">
+          <form id="msgForm" action="https://nodejslab-c9-lbras.c9.io/messages">
+            <div class="span3"><input name="username" type="text" class="input-block-level" placeholder="Your Name"></div>
+            <div class="input-append span9">
+              <input name="message" type="text" class="span7" placeholder="Message">
+              <input type="submit" class="span2 btn btn-primary" value="Send">
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -52,23 +42,46 @@
     <script src="https://c9.io/lbras/nodejslab/workspace/chatRoom/public/javascripts/bootstrap.min.js"></script>
     <script>
     
+      // Ajax form submission
       $("#msgForm").submit(function(event) {
         event.preventDefault();
         
         var $form = $(this);
-      
         $.post(
             $form.attr( "action" ),
             $form.serialize()
         );
       });
       
+      // Last message retrieved from the server
+      var lastMsgId = -1;
+      
+      // Message polling (1 seconds)
       setInterval(function() {
-        $.getJSON("https://nodejslab-c9-lbras.c9.io/messages", function (data) {
-          for (var i = 0; i < data.length; ++i) {
-            data[i].message;
-            $("#messageTable tr:last").after("<tr><td class='span2'>>" + data[i].username + "</td><td class='span7'>" + data[i].message + "</td></tr>");
+        $.getJSON("https://nodejslab-c9-lbras.c9.io/messages", {"lastMsgId": lastMsgId}, function (data) {
+          
+          if (!data) return;
+          
+          if (lastMsgId == -1)
+          {
+            // Ignore message, we just want to know which was the last one
+            lastMsgId = data.id;
+            return;
           }
+          
+          // Format new messages
+          var newMessages = "";
+          for (var i = 0; i < data.length; ++i) {
+            newMessages += data[i].username + ": " + data[i].message + "\n";
+            lastMsgId = data[i].id;
+          }
+          
+          // Append to chat
+          var chat = $("textarea").get(0);
+          chat.value += newMessages;
+          
+          // Scroll to bottom
+          chat.scrollTop = chat.scrollHeight;
         });
       }, 1000);
     
