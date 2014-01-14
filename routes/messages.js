@@ -11,7 +11,13 @@ var messages = messages || [{
  * Ajax end points
  */
 
-exports.list = function(req, res){
+exports.list = function(req, res) {
+  
+  // CORS
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  
   var lastMsgId = req.query.lastMsgId;
   
   // return older messages or last message if client just connected
