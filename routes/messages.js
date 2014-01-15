@@ -15,9 +15,18 @@ var messages = messages || [{
 exports.list = function(req, res) {
   
   // CORS
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  var origin = req.header('origin');
+  if (origin !== undefined) {
+    res.header('Access-Control-Allow-Origin', '*');
+    
+    // Preflight
+    if (req.method == 'OPTIONS') {
+      res.header('Access-Control-Allow-Methods', 'GET');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, X-Requested-With');
+      res.send(200);
+      return;
+    }
+  }
   
   var lastMsgId = req.query.lastMsgId;
   
@@ -38,11 +47,20 @@ exports.list = function(req, res) {
 exports.create = function(req, res) {
 
   // CORS
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'PUSH');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  var origin = req.header('origin');
+  if (origin !== undefined) {
+    res.header('Access-Control-Allow-Origin', '*');
+    
+    // Preflight
+    if (req.method == 'OPTIONS') {
+      res.header('Access-Control-Allow-Methods', 'PUSH');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, X-Requested-With');
+      res.send(200);
+      return;
+    }
+  }
   
-  var origin = req.header('origin') || "";
+  origin = origin || "";
       
   var username = req.body.username;
   var message = req.body.message;
